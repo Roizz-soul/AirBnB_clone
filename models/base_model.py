@@ -24,10 +24,13 @@ class BaseModel:
                                                          form)
             self.updated_at = datetime.datetime.strptime(kwargs["updated_at"],
                                                          form)
+        else:
+            models.storage.new(self)
 
     def save(self):
         """updates the current date and time"""
         self.updated_at = datetime.datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """dictionary method to update and return a dictionary
