@@ -27,6 +27,7 @@ class HBNBCommand(cmd.Cmd):
         Returns:
             True
         """
+        print()
         return True
 
     def do_quit(self, line):
@@ -59,9 +60,9 @@ class HBNBCommand(cmd.Cmd):
             if g[0] not in classes:
                 print("** class doesn't exist **")
             else:
-                if g[1] == '':
+                if len(g) == 1:
                     print("** instance id missing **")
-                else:
+                elif len(g) > 1:
                     object_dict = storage.all()
                     if "{}.{}".format(g[0], g[1]) not in object_dict:
                         print("** no instance found **")
@@ -77,9 +78,9 @@ class HBNBCommand(cmd.Cmd):
             if g[0] not in classes:
                 print("** class doesn't exist **")
             else:
-                if g[1] == '':
+                if len(g) == 1:
                     print("** instance id missing **")
-                else:
+                elif len(g) > 1:
                     object_dict = storage.all()
                     if "{}.{}".format(g[0], g[1]) not in object_dict:
                         print("** no instance found **")
@@ -119,7 +120,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return False
 
-            if g[1] == '':
+            if len(g) == 1:
                 print("** instance id missing **")
                 return False
 
@@ -127,12 +128,13 @@ class HBNBCommand(cmd.Cmd):
             if "{}.{}".format(g[0], g[1]) not in object_dict:
                 print("** no instance found **")
                 return False
-            if g[2] == '':
+            if len(g) == 2:
                 print("** attribute name missing **")
                 return False
 
-            if g[3] == '':
+            if len(g) == 3:
                 print("** value missing **")
+                return False
 
             if len(g) >= 4:
                 obj = object_dict["{}.{}".format(g[0], g[1])]
