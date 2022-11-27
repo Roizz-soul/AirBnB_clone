@@ -12,13 +12,21 @@ class HBNBCommand(cmd.Cmd):
             is empty or if ENTER is typed only
         """
         pass
+
     def do_EOF(self, line):
-        """EOF signals end of file and quits the command interpreter"""
+        """EOF signals end of file and quits the command interpreter
+        Returns:
+            True
+        """
         return True
 
     def do_quit(self, line):
-        """Quit command to exit the program"""
+        """Quit command to exit the program
+        Returns:
+            True
+        """
         return True
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
