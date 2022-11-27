@@ -12,16 +12,7 @@ class BaseModel:
         """Initialization method for each instance"""
         self.id = str(uuid.uuid4())
         self.created_at = datetime.datetime.now()
-        self.updated_at = datetime.datetime.now()
-
-    def __str__(self):
-        """String method that prints a set of strings anytime it
-            called
-        Returns:
-            A string
-        """
-        return ("[{}] ({}) <{}>".format(self.__class__.__name__,
-                self.id, self.__dict__))
+        self.updated_at = datetime.datetime.now()        
 
     def save(self):
         """updates the current date and time"""
