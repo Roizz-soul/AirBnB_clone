@@ -1,7 +1,14 @@
 #!/usr/bin/python3
 """This module is for the command Interpreter"""
 import cmd
+from models import storage
+from models.base_model import BaseModel
 
+
+def _split(line):
+    return line.split()
+
+classes = ['BaseModel']
 
 class HBNBCommand(cmd.Cmd):
     """The console class for the interpreter"""
@@ -26,6 +33,122 @@ class HBNBCommand(cmd.Cmd):
             True
         """
         return True
+
+    def do_create(self, line):
+        """Creates an instance of the class inputed"""
+        if line == '':
+            print("** class name missing **")
+        else:
+            g = _split(line)
+            if g[0] not in classes:
+                print("** class doesn't exist **")
+            else:
+                print(eval(g[0])().id)
+                storage.save()
+
+    def do_show(self, line):
+        """prints the string rep. if an instance based on the class name
+            and id
+        """
+        if line == '':
+            print("** class name missing **")
+        else:
+            g = _split(line)
+            if g[0] not in classes:
+                print("** class doesn't exist **")
+            else:
+                if g[1] == '':
+                    print("** instance id missing **")
+                else:
+                    object_dict = storage.all()
+                    if "{}.{}".format(g[0], g[1]) not in object_dict:
+                        print("** no instance found **")
+                    else:
+                        print(object_dict["{}.{}".format(g[0], g[1])])
+
+    def do_destroy(self, line):
+        """Deletes an instance based on the class name and id"""
+        if line == '':
+            print("** class name missing **")
+        else:
+            g = _split(line)
+            if g[0] not in classes:
+                print("** class doesn't exist **")
+            else:
+                if g[1] == '':
+                    print("** instance id missing **")
+                else:
+                    object_dict = storage.all()
+                    if "{}.{}".format(g[0], g[1]) not in object_dict:
+                        print("** no instance found **")
+                    else:
+                        del object_dict["{}.{}".format(g[0], g[1])]
+                        storage.save()
+
+    def do_all(self, line):
+        """prints all string representation of all instances based or
+            not on the class name
+        """
+        object_dict = storage.all()
+        if line == '':
+            ulist = [str(h) for h in object_dict.values()]
+            print(ulist)
+        else:
+            g = _split(line)
+            if g[0] not in classes:
+                print("** class doesn't exist **")
+            else:
+                ulist = [str(h) for h in object_dict.values()]
+                dlist = []
+                for i in ulist:
+                    if g[0] in i:
+                        dlist.append(i)
+                print(dlist)
+
+    def do_update(self, line):
+        """Updates an instance based on the class name and id by adding or
+            updating an attribute
+        """
+        if line == '':
+            print("** class name missing **")
+        else:
+            g = _split(line)
+            if g[0] not in classes:
+                print("** class doesn't exist **")
+                return False
+
+            if g[1] == '':
+                print("** instance id missing **")
+                return False
+
+            object_dict = storage.all()
+            if "{}.{}".format(g[0], g[1]) not in object_dict:
+                print("** no instance found **")
+                return False
+            if g[2] == '':
+                print("** attribute name missing **")
+                return False
+
+            if g[3] == '':
+                print("** value missing **")
+
+            if len(g) >= 4:
+                obj = object_dict["{}.{}".format(g[0], g[1])]
+                if g[2] in obj.__class__.__dict__.keys():
+                    valtype = type(obj.__class__.__dict__[g[2]])
+                    obj.__dict__[g[2]] = valtype(g[3])
+                else:
+                    obj.__dict__[g[2]] = g[3]
+            elif type(eval(g[2])) == dict:
+                obj = object_dict["{}.{}".format(g[0], g[1])]
+                for k, v in eval(g[2]).items():
+                    if (k in obj.__class__.__dict__.keys() and
+                        type(obj.__class__.__dict__[k]) in {str, int, float}):
+                        valtype = type(obj.__class__.__dict__[k])
+                        obj.__dict__[k] = valtype(v)
+                    else:
+                        obj.__dict__[k] = v
+            storage.save()
 
 
 if __name__ == '__main__':
