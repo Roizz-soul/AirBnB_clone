@@ -1,16 +1,12 @@
 #!/usr/bin/python3
-""" A class BaseModel that defines all common attributes/methods
-    for the other classes
-"""
+""" A class BaseModel that defines all attributes and methods"""
 import datetime
 import models
 import uuid
 
 
 class BaseModel:
-    """ the BaseModel class contains all common attributes and methods
-        we'll use for other subclasses
-    """
+    """ the BaseModel class of the Project"""
 
     def __init__(self):
         """Initialization method for each instance"""
@@ -41,3 +37,12 @@ class BaseModel:
         our_dict["created_at"] = self.created_at.isoformat()
         our_dict["updated_at"] = self.updated_at.isoformat()
         return our_dict
+
+    def __str__(self):
+        """String method that prints a set of strings anytime it
+            called
+        Returns:
+            A string
+        """
+        class_name = self.___class__.__name__
+        return ("[{}] ({}) <{}>".format(class_name, self.id, self.__dict__))
