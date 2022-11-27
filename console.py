@@ -3,13 +3,14 @@
 import cmd
 from models import storage
 from models.base_model import BaseModel
+from models.user import User
 
 
 def _split(line):
     return line.split()
 
 
-classes = ['BaseModel']
+classes = ['BaseModel', 'User']
 
 
 class HBNBCommand(cmd.Cmd):
