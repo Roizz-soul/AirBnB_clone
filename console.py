@@ -8,7 +8,9 @@ from models.base_model import BaseModel
 def _split(line):
     return line.split()
 
+
 classes = ['BaseModel']
+
 
 class HBNBCommand(cmd.Cmd):
     """The console class for the interpreter"""
@@ -143,7 +145,7 @@ class HBNBCommand(cmd.Cmd):
                 obj = object_dict["{}.{}".format(g[0], g[1])]
                 for k, v in eval(g[2]).items():
                     if (k in obj.__class__.__dict__.keys() and
-                        type(obj.__class__.__dict__[k]) in {str, int, float}):
+                       type(obj.__class__.__dict__[k]) in {str, int, float}):
                         valtype = type(obj.__class__.__dict__[k])
                         obj.__dict__[k] = valtype(v)
                     else:
