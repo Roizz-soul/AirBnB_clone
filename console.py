@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module is for the command Interpreter"""
 import cmd
+import re
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -21,6 +22,27 @@ classes = ['BaseModel', 'User', 'State', 'City', 'Amenity', 'Place', 'Review']
 class HBNBCommand(cmd.Cmd):
     """The console class for the interpreter"""
     prompt = '(hbnb) '
+
+    def default(self, line):
+        """behavour for cmd module when input is invalid"""
+        argdict = {
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count,
+            "update": self.do_update
+        }
+        match = re.search(r"\.", line)
+        if match is not None:
+            argl = [line[:match.span()[0]], line[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", argl[1])
+            if match is not None:
+                command = [argl[1][:match.span()[0]], match.group()[1:-1]]
+                if command[0] in argdict.keys():
+                    call = "{} {}".format(argl[0], command[1])
+                    return argdict[command[0]](call)
+        print("*** Unknown syntax: {}".format(line))
+        return False
 
     def emptyline(self):
         """Makes the interpreter not to execute anything if the line
@@ -113,6 +135,15 @@ class HBNBCommand(cmd.Cmd):
                     if g[0] in i:
                         dlist.append(i)
                 print(dlist)
+
+    def do_count(self, line):
+        """Retrieve the number of instances of a given class."""
+        g = _split(line)
+        count = 0
+        for obj in storage.all().values():
+            if g[0] == obj.__class__.__name__:
+                count += 1
+        print(count)
 
     def do_update(self, line):
         """Updates an instance based on the class name and id by adding or
