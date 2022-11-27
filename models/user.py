@@ -16,3 +16,7 @@ class User(BaseModel):
     password = ""
     first_name = ""
     last_name = ""
+
+    def __init__(self, *args, **kwargs):
+        """Initialization point inherit super class"""
+        super().__init__(*args, **kwargs)
