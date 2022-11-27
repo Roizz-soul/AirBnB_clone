@@ -8,11 +8,22 @@ import uuid
 class BaseModel:
     """ the BaseModel class of the Project"""
 
-    def __init__(self):
-        """Initialization method for each instance"""
+    def __init__(self, *args, **kwargs):
+        """Initialization method for each instance
+        Args:
+            args: unknown number of arguments
+            kwargs: unkown number of key/value arguments
+        """
         self.id = str(uuid.uuid4())
         self.created_at = datetime.datetime.now()
-        self.updated_at = datetime.datetime.now()        
+        self.updated_at = datetime.datetime.now()
+        if kwargs:
+            form = "%Y-%m-%dT%H:%M:%S.%f"
+            self.id = kwargs["id"]
+            self.created_at = datetime.datetime.strptime(kwargs["created_at"],
+                                                         form)
+            self.updated_at = datetime.datetime.strptime(kwargs["updated_at"],
+                                                         form)
 
     def save(self):
         """updates the current date and time"""
