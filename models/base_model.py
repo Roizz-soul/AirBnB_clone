@@ -11,6 +11,7 @@ class BaseModel:
     """ the BaseModel class contains all common attributes and methods
         we'll use for other subclasses
     """
+
     def __init__(self):
         """Initialization method for each instance"""
         self.id = str(uuid.uuid4())
