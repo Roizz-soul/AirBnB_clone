@@ -42,10 +42,12 @@ class HBNBCommand(cmd.Cmd):
         except ValueError:
             pass
         try:
-            x = t[2].strip("\"")
-            t[2] = x
+            x = t[2].replace("\"", "")
+            y = x.replace(",", "")
+            t[2] = y
         except IndexError:
             pass
+        print(t)
         _class = t[0]
         _method = t[1]
         if len(t) == 3:
