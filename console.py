@@ -32,16 +32,34 @@ class HBNBCommand(cmd.Cmd):
             "count": self.do_count,
             "update": self.do_update
         }
-        match = re.search(r"\.", line)
-        if match is not None:
-            argl = [line[:match.span()[0]], line[match.span()[1]:]]
-            match = re.search(r"\((.*?)\)", argl[1])
-            if match is not None:
-                command = [argl[1][:match.span()[0]], match.group()[1:-1]]
-                if command[0] in argdict.keys():
-                    call = "{} {}".format(argl[0], command[1])
-                    return argdict[command[0]](call)
-        print("*** Unknown syntax: {}".format(line))
+        t = re.split(r"[.()]", line)
+        if len(t) < 4:
+            print("** Command doesn't exist **")
+            return False
+        t.remove('')
+        try:
+            t.remove('')
+        except ValueError:
+            pass
+        try:
+            x = t[2].strip("\"")
+            t[2] = x
+        except IndexError:
+            pass
+        _class = t[0]
+        _method = t[1]
+        if len(t) == 3:
+            _line = t[2]
+        else:
+            _line = ''
+        if _class in classes:
+            if _method in argdict.keys():
+                argdict[_method]("{} {}".format(_class, _line))
+            else:
+                print("** method doesn't exist **")
+        else:
+            print("** class doesn't exist **")
+
         return False
 
     def emptyline(self):
