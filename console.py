@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module is for the command Interpreter"""
 import cmd
+import json
 import re
 from models import storage
 from models.base_model import BaseModel
@@ -41,26 +42,37 @@ class HBNBCommand(cmd.Cmd):
             t.remove('')
         except ValueError:
             pass
-        try:
-            x = t[2].replace("\"", "")
-            y = x.replace(",", "")
-            t[2] = y
-        except IndexError:
-            pass
-        print(t)
-        _class = t[0]
-        _method = t[1]
-        if len(t) == 3:
-            _line = t[2]
+        if t[1] == 'update' and '{' in t[2] and '}' in t[2]:
+            r = t[2].split(" ", 1)
+            y = r[1].replace("\'", "\"")
+            j = json.loads(y)
+            for i in j:
+                if t[0] in classes:
+                    p = r[0].replace(",", "")
+                    p = p.replace("\"", "")
+                    q = p + " " + i + " " + str(j[i])
+                    argdict["update"]("{} {}".format(t[0], q))
         else:
-            _line = ''
-        if _class in classes:
-            if _method in argdict.keys():
-                argdict[_method]("{} {}".format(_class, _line))
+            try:
+                x = t[2].replace("\"", "")
+                y = x.replace(",", "")
+                t[2] = y
+            except IndexError:
+                pass
+
+            _class = t[0]
+            _method = t[1]
+            if len(t) == 3:
+                _line = t[2]
             else:
-                print("** method doesn't exist **")
-        else:
-            print("** class doesn't exist **")
+                _line = ''
+            if _class in classes:
+                if _method in argdict.keys():
+                    argdict[_method]("{} {}".format(_class, _line))
+                else:
+                    print("** method doesn't exist **")
+            else:
+                print("** class doesn't exist **")
 
         return False
 
