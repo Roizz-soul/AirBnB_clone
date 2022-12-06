@@ -11,7 +11,8 @@
     border-right: 1px solid #DDDDDD;
 }
 
-.locations, .amenities {
+.locations, 
+.filters .amenities {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,7 +21,8 @@
     position: relative;
 }
 
-.locations >*, .amenities >* {
+.locations >*, 
+.filters .amenities >* {
     position: relative;
     margin-left: 25%;
 }
@@ -44,7 +46,11 @@ h2 {
 	font-size: 16px;
 }
 .locations .popover >li{ margin-bottom: 10%;}
-.amenities .popover { padding-bottom: 10%;}
+.amenities .popover {
+    padding-bottom: 10%;
+    position: absolute;
+    left: -25%;
+}
 .locations .popover li{margin-left: 15%;}
 .locations .popover li li {margin-left: 10%;}
 .amenities .popover li{margin-left: 25%;}i
