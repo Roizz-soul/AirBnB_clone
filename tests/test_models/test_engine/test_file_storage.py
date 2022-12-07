@@ -13,8 +13,10 @@ class TestFileStorage(unittest.TestCase):
 
     def test_all(self):
         """Testing for all method"""
+        d1 = BaseModel()
+        d1.save()
         a1 = FileStorage()
-        self.assertEqual(dict, type(a1.all()))
+        self.assertIn("{}.{}".format("BaseModel", d1.id), a1.all())
 
     def test_file_path(self):
         """Testing for the file path"""
