@@ -10,17 +10,14 @@ from models.engine.file_storage import FileStorage
 
 class TestFileStorage(unittest.TestCase):
     """Tests for fileStorage attributes and methods"""
-    def SetUp(self):
-        """Creates object instances"""
-        d1 = BaseModel()
-        sleep(0.05)
-        d2 = BaseModel()
 
     def test_all(self):
+        """Testing for all method"""
         a1 = FileStorage()
         self.assertEqual(dict, type(a1.all()))
 
     def test_file_path(self):
+        """Testing for the file path"""
         a1 = FileStorage()
         with self.assertRaises(AttributeError):
             a1.__file_path
