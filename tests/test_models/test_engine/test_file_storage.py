@@ -16,10 +16,9 @@ class TestFileStorage(unittest.TestCase):
         sleep(0.05)
         d2 = BaseModel()
 
-    def test_object(self):
+    def test_all(self):
         a1 = FileStorage()
-        with self.assertRaises(AttributeError):
-            a1.__objects
+        self.assertEqual(dict, type(a1.all()))
 
     def test_file_path(self):
         a1 = FileStorage()
