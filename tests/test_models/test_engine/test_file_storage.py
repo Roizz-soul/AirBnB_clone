@@ -17,12 +17,14 @@ class TestFileStorage(unittest.TestCase):
         d2 = BaseModel()
 
     def test_object(self):
+        a1 = FileStorage()
         with self.assertRaises(AttributeError):
-            FileStorage.__objects
+            a1.__objects
 
     def test_file_path(self):
+        a1 = FileStorage()
         with self.assertRaises(AttributeError):
-            FileStorage.__file_path
+            a1.__file_path
 
 
 if __name__ == '__main__':
